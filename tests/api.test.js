@@ -35,7 +35,7 @@ it("Get request", async () => {
     //
 
   });
-
+  
   it.skip("Generate user", async () => {
     const response = await spec()
       .post(`${baseUrl}/Account/v1/GenerateToken`)
@@ -45,6 +45,4 @@ it("Get request", async () => {
       })
       .inspect();
   })
-
- 
 });
