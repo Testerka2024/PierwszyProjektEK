@@ -27,7 +27,7 @@ it("Get request", async () => {
       .post(`${baseUrl}/Account/v1/User`)
       .withBody({
         userName: "EKtest1",
-        password: "EKtest123!",
+        password: process.env.SECRET_PASSWORD,
       })
       .inspect();
 
@@ -35,6 +35,14 @@ it("Get request", async () => {
     //
 
   });
-
- 
+  
+  it.skip("Generate user", async () => {
+    const response = await spec()
+      .post(`${baseUrl}/Account/v1/GenerateToken`)
+      .withBody({
+        userName: "EKtest1",
+        password: process.env.SECRET_PASSWORD,
+      })
+      .inspect();
+  })
 });
