@@ -2,12 +2,13 @@ import { expect } from "chai";
 import pkg from "pactum";
 const { spec } = pkg;
 import 'dotenv/config'
-import { baseUrl,userID } from "../helpers/data.js";
+import { baseUrl,password,userID,user } from "../helpers/data.js";
 
+let token_response;
 
 describe("Api tests", () => {
 
-it("Get request", async () => {
+it.skip("Get request", async () => {
     const response = await spec()
        .get(`${baseUrl}/BookStore/v1/Books`)
        .inspect();
@@ -26,8 +27,8 @@ it("Get request", async () => {
     const response = await spec()
       .post(`${baseUrl}/Account/v1/User`)
       .withBody({
-        userName: "EKtest1",
-        password: process.env.SECRET_PASSWORD,
+        userName: user,
+        password: password,
       })
       .inspect();
 
@@ -36,13 +37,23 @@ it("Get request", async () => {
 
   });
   
-  it.skip("Generate user", async () => {
+  it.only("Generate token", async () => {
     const response = await spec()
       .post(`${baseUrl}/Account/v1/GenerateToken`)
       .withBody({
-        userName: "EKtest1",
-        password: process.env.SECRET_PASSWORD,
+        userName: user,
+        password: password,
       })
       .inspect();
+      token_response = response.body.token;
+      console.log(token_response);
+      expect(response.statusCode).to.eql(200);
+      expect(response.body.result).to.eql("User authorized successfully.")
   })
+
+  it.only("Check token", async () => {
+    console.log("another is block" + token_response)
+  })
+
+
 });
